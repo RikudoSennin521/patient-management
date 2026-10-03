@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
@@ -29,7 +28,7 @@ public class Patient {
     private LocalDate dateOfBirth;
 
     @NotNull
-    private LocalTime registeredDate;
+    private LocalDate registeredDate;
 
 
     public UUID getId() {
@@ -72,11 +71,11 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public LocalTime getRegisteredDate() {
+    public LocalDate getRegisteredDate() {
         return registeredDate;
     }
 
-    public void setRegisteredDate(LocalTime registeredDate) {
+    public void setRegisteredDate(LocalDate registeredDate) {
         this.registeredDate = registeredDate;
     }
 
