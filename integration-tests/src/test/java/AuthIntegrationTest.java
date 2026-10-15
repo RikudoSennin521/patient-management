@@ -1,6 +1,10 @@
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import static org.hamcrest.Matchers.notNullValue;
 
 public class AuthIntegrationTest {
 
@@ -22,6 +26,43 @@ public class AuthIntegrationTest {
                     }
                 """;
 
+        Response response = RestAssured.given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post("/auth/login")
+                .then()
+                .statusCode(200)
+                .body("token", notNullValue())
+                .extract()
+                .response();
+
+        System.out.println("Generated token: " + response.jsonPath().getString("token"));
 
     }
+
+
+    @Test
+    public void shouldReturnUnauthorizedWithInvalidLogin() {
+        // 1. Arrange
+        // 2. Act
+        // 3. Assert
+
+        String loginPayload = """
+                    {
+                        "email": "invalid_user@test.com",
+                        "password": "wrong_password123"
+                    }
+                """;
+
+        RestAssured.given()
+                .contentType("application/json")
+                .body(loginPayload)
+                .when()
+                .post("/auth/login")
+                .then()
+                .statusCode(401);
+    }
+
+
 }
